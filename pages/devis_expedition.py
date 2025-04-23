@@ -117,7 +117,7 @@ def show_devis_expedition():
     with st.form("expedition_form"):
         # Informations communes
         selected_carton = st.selectbox("📦 Type de coffret", options=list(COFFRETS_PAR_PALETTE.keys()))
-        nombre_colis = st.number_input('📦 Nombre de coffrets', min_value=1, max_value=1000, value=1, step=1)
+        nombre_colis = st.number_input('📦 Nombre de coffrets', min_value=1, max_value=100000, value=1, step=1)
         poids_colis = st.number_input('⚖ Poids par coffret (kg)', min_value=0.1, max_value=100.0, value=1.0, step=0.1)
         
         calculate_button = st.form_submit_button("🧮 Calculer les tarifs")
