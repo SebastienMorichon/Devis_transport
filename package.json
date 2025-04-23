@@ -1,0 +1,13 @@
+{
+    "name": "b2b-app",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+      "dev": "stlite preview .",
+      "build": "stlite build ."
+    },
+    "dependencies": {
+      "@stlite/desktop": "^0.5.0"
+    }
+  }
+  
