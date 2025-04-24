@@ -2,7 +2,6 @@ import streamlit as st
 import math
 import pandas as pd
 from modules.database import get_tarif
-from modules.scraper import get_cnr_index
 from modules.data_loader import load_data
 
 # 📌 Constantes pour le nombre de coffrets par palette
@@ -12,7 +11,9 @@ COFFRETS_PAR_PALETTE = {
 }
 
 # 📌 Coût fixe de palettisation ESAT par palette
-COUT_PALETTISATION_ESAT = 45  # euros par palette
+COUT_PALETTISATION_ESAT = 15  # euros par palette
+TARIF_CARTONS = 2.5 # euros par carton
+ENERGIE_PROPULSION = 0.25 
 
 def convert_to_float(value):
     """ Convertit une valeur en float, retourne 0.00 si impossible. """
@@ -96,9 +97,6 @@ def get_tarif_depuis_excel(destination, poids_total, data):
 def show_devis_expedition():
     st.title('📦 Calculateur de Frais de Livraison')
 
-    # 📌 Récupération de l'indice CNR
-    cnr_index = get_cnr_index()
-    st.markdown(f"### 📊 Indice CNR actuel : **{cnr_index}**")
 
     # 📌 Chargement des tarifs de livraison
     data_poids, data_palettes = load_data()
@@ -133,6 +131,14 @@ def show_devis_expedition():
         coffrets_par_palette = COFFRETS_PAR_PALETTE[selected_carton]
         nombre_palettes = math.ceil(nombre_colis / coffrets_par_palette)
         cout_palettisation = nombre_palettes * COUT_PALETTISATION_ESAT
+
+        if selected_carton == "Coffret S":
+            nombre_cartons = math.ceil(nombre_colis/14)
+            cout_cartons = nombre_cartons * TARIF_CARTONS
+        elif selected_carton == "Coffret M":
+            nombre_cartons = math.ceil(nombre_colis / 12)
+            cout_cartons = nombre_cartons * TARIF_CARTONS
+        
         print(f"Informations calculées : poids={poids_total}, palettes={nombre_palettes}, cout_palettisation={cout_palettisation}")
             
         # Calcul des deux options de tarification
@@ -157,14 +163,14 @@ def show_devis_expedition():
                 st.warning("⚠️ Pour un poids supérieur à 3000kg, veuillez contacter le service commercial pour un devis personnalisé")
             elif tarif_poids is not None:
                 # Calcul de l'ajustement CNR
-                CNR_BASE = 184.12
-                ajustement_cnr = tarif_poids * (cnr_index - CNR_BASE) / CNR_BASE
-                total_poids = tarif_poids + cout_palettisation + ajustement_cnr
+                
+                total_poids = tarif_poids + cout_palettisation + (tarif_poids * ENERGIE_PROPULSION) + cout_cartons
                 
                 st.markdown(f"📦 **Poids total :** {poids_total} kg")
                 st.markdown(f"🎯 **Nombre de palettes nécessaires :** {nombre_palettes}")
                 st.markdown(f"💰 **Coût transport initial :** {round(tarif_poids, 2)} €")
-                st.markdown(f"📈 **Ajustement CNR ({round(cnr_index, 2)}) :** {round(ajustement_cnr, 2)} €")
+                st.markdown(f"⛽️ **Energie de propulsion :** {round(tarif_poids*ENERGIE_PROPULSION,2)} €")
+                st.markdown(f"📦 **Coût cartons :** {round(cout_cartons, 2)} €")
                 st.markdown(f"🏭 **Coût palettisation ESAT :** {cout_palettisation} €")
                 st.markdown(f"💶 **Total :** {round(total_poids, 2)} €")
             else:
@@ -176,14 +182,14 @@ def show_devis_expedition():
                 st.warning("⚠️ Au-delà de 5 palettes, veuillez contacter le service commercial pour un devis personnalisé")
             elif tarif_palette is not None:
                 # Calcul de l'ajustement CNR
-                CNR_BASE = 184.12
-                ajustement_cnr = tarif_palette * (cnr_index - CNR_BASE) / CNR_BASE
-                total_palette = tarif_palette + cout_palettisation + ajustement_cnr
+                
+                total_palette = tarif_palette + cout_palettisation + (tarif_palette * ENERGIE_PROPULSION)+ cout_cartons
                 
                 st.markdown(f"📦 **Nombre de palettes :** {nombre_palettes}")
                 st.markdown(f"ℹ️ **Capacité d'une palette :** {coffrets_par_palette} coffrets")
                 st.markdown(f"💰 **Coût transport initial :** {round(tarif_palette, 2)} €")
-                st.markdown(f"📈 **Ajustement CNR ({round(cnr_index, 2)}) :** {round(ajustement_cnr, 2)} €")
+                st.markdown(f"⛽️ **Energie de propulsion :** {round(tarif_palette*ENERGIE_PROPULSION,2)} €")
+                st.markdown(f"📦 **Coût cartons :** {round(cout_cartons, 2)} €")
                 st.markdown(f"🏭 **Coût palettisation ESAT :** {cout_palettisation} €")
                 st.markdown(f"💶 **Total :** {round(total_palette, 2)} €")
             else:

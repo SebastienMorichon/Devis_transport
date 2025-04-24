@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/Users/sebastienmorichon/Chez Soeurettes/Application B2B/streamlit_env/bin/python3.12" "$0" "$@"
+'''exec' "/Users/sebastienmorichon/Chez Soeurettes/Application B2B/Devis_transport/streamlit_env/bin/python3.12" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re
