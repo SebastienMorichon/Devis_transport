@@ -172,7 +172,7 @@ def show_devis_expedition():
                 st.markdown(f"⛽️ **Energie de propulsion :** {round(tarif_poids*ENERGIE_PROPULSION,2)} €")
                 st.markdown(f"📦 **Coût cartons :** {round(cout_cartons, 2)} €")
                 st.markdown(f"🏭 **Coût palettisation ESAT :** {cout_palettisation} €")
-                st.markdown(f"💶 **Total :** {round(total_poids, 2)} €")
+                st.markdown(f"### 💶 **Total :** {round(total_poids, 2)} €")
             else:
                 st.warning("⚠️ Tarification par poids non disponible")
 
@@ -191,7 +191,7 @@ def show_devis_expedition():
                 st.markdown(f"⛽️ **Energie de propulsion :** {round(tarif_palette*ENERGIE_PROPULSION,2)} €")
                 st.markdown(f"📦 **Coût cartons :** {round(cout_cartons, 2)} €")
                 st.markdown(f"🏭 **Coût palettisation ESAT :** {cout_palettisation} €")
-                st.markdown(f"💶 **Total :** {round(total_palette, 2)} €")
+                st.markdown(f"### 💶 **Total :** {round(total_palette, 2)} €")
             else:
                 st.warning("⚠️ Tarification par palette non disponible")
 
