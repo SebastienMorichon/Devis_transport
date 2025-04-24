@@ -12,7 +12,7 @@ COFFRETS_PAR_PALETTE = {
 
 # 📌 Coût fixe de palettisation ESAT par palette
 COUT_PALETTISATION_ESAT = 15  # euros par palette
-TARIF_CARTONS = 2.5 # euros par carton
+TARIF_CARTONS = 2.50 # euros par carton
 ENERGIE_PROPULSION = 0.25 
 
 def convert_to_float(value):
@@ -134,10 +134,10 @@ def show_devis_expedition():
 
         if selected_carton == "Coffret S":
             nombre_cartons = math.ceil(nombre_colis/14)
-            cout_cartons = nombre_cartons * TARIF_CARTONS
+            cout_cartons = round(nombre_cartons * TARIF_CARTONS,2)
         elif selected_carton == "Coffret M":
             nombre_cartons = math.ceil(nombre_colis / 12)
-            cout_cartons = nombre_cartons * TARIF_CARTONS
+            cout_cartons = round(nombre_cartons * TARIF_CARTONS,2)
         
         print(f"Informations calculées : poids={poids_total}, palettes={nombre_palettes}, cout_palettisation={cout_palettisation}")
             
@@ -169,7 +169,7 @@ def show_devis_expedition():
                 st.markdown(f"📦 **Poids total :** {poids_total} kg")
                 st.markdown(f"🎯 **Nombre de palettes nécessaires :** {nombre_palettes}")
                 st.markdown(f"💰 **Coût transport initial :** {round(tarif_poids, 2)} €")
-                st.markdown(f"⛽️ **Energie de propulsion :** {round(tarif_poids*ENERGIE_PROPULSION,2)} €")
+                st.markdown(f"⛽️ **Energie de propulsion (25%) :** {round(tarif_poids*ENERGIE_PROPULSION,2)} €")
                 st.markdown(f"📦 **Coût cartons :** {round(cout_cartons, 2)} €")
                 st.markdown(f"🏭 **Coût palettisation ESAT :** {cout_palettisation} €")
                 st.markdown(f"### 💶 **Total :** {round(total_poids, 2)} €")
@@ -185,10 +185,10 @@ def show_devis_expedition():
                 
                 total_palette = tarif_palette + cout_palettisation + (tarif_palette * ENERGIE_PROPULSION)+ cout_cartons
                 
-                st.markdown(f"📦 **Nombre de palettes :** {nombre_palettes}")
-                st.markdown(f"ℹ️ **Capacité d'une palette :** {coffrets_par_palette} coffrets")
+                st.markdown(f"📦 **Poids total :** {poids_total} kg")
+                st.markdown(f"🎯 **Nombre de palettes nécessaires :** {nombre_palettes}")
                 st.markdown(f"💰 **Coût transport initial :** {round(tarif_palette, 2)} €")
-                st.markdown(f"⛽️ **Energie de propulsion :** {round(tarif_palette*ENERGIE_PROPULSION,2)} €")
+                st.markdown(f"⛽️ **Energie de propulsion (25%) :** {round(tarif_palette*ENERGIE_PROPULSION,2)} €")
                 st.markdown(f"📦 **Coût cartons :** {round(cout_cartons, 2)} €")
                 st.markdown(f"🏭 **Coût palettisation ESAT :** {cout_palettisation} €")
                 st.markdown(f"### 💶 **Total :** {round(total_palette, 2)} €")
