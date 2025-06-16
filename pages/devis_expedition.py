@@ -7,7 +7,8 @@ from modules.data_loader import load_data
 # 📌 Constantes pour le nombre de coffrets par palette
 COFFRETS_PAR_PALETTE = {
     "Coffret S": 175,
-    "Coffret M": 150
+    "Coffret M": 150,
+    "Coffret L": 76
 }
 
 # 📌 Coût fixe de palettisation ESAT par palette
@@ -137,6 +138,9 @@ def show_devis_expedition():
             cout_cartons = round(nombre_cartons * TARIF_CARTONS,2)
         elif selected_carton == "Coffret M":
             nombre_cartons = math.ceil(nombre_colis / 12)
+            cout_cartons = round(nombre_cartons * TARIF_CARTONS,2)
+        elif selected_carton == "Coffret L":
+            nombre_cartons = math.ceil(nombre_colis / 6)
             cout_cartons = round(nombre_cartons * TARIF_CARTONS,2)
         
         print(f"Informations calculées : poids={poids_total}, palettes={nombre_palettes}, cout_palettisation={cout_palettisation}")
